@@ -1,9 +1,11 @@
 name: 'assignee4label'
 description: 'Set assignee when label on issue.'
 inputs:
-  config-path:
+  configuration-path:
     description: 'Configuration file path'
     default: '.github/assingee4label.yml'
+  github-token:
+    description: 'GitHub Token'
 runs:
   using: 'node12'
-  main: 'dist/main.js'
+  main: 'dist/index.js'
