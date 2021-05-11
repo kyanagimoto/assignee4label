@@ -1,7 +1,7 @@
 {
   "name": "assignee4label",
   "version": "1.0.1",
-  "description": "Set assignee when label.",
+  "description": "Set assignee when labeled.",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc && ncc build lib/main.js",
@@ -17,9 +17,9 @@
     "github",
     "actions",
     "label",
-    "labeler"
+    "assignee"
   ],
-  "author": "GitHub",
+  "author": "kyanagimoto",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.4",
