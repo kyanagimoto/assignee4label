@@ -23,6 +23,7 @@ async function run() {
     Object.keys(configurationContent).forEach(function(key) {
       if (github.context.payload.label.name == key) {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
+          removeAssignees(client, issueNumber);
           core.debug(`assignee name: ${element}`)
           addAssignees(client, issueNumber, element);
         });
@@ -58,8 +59,7 @@ async function addAssignees(
 
 async function removeAssignees(
   client: github.GitHub,
-  issueNumber: number,
-  assignees: string[]
+  issueNumber: number
 ) {
   await client.issues.removeAssignees({
     owner: github.context.repo.owner,

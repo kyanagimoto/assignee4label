@@ -64,6 +64,7 @@ function run() {
             Object.keys(configurationContent).forEach(function (key) {
                 if (github.context.payload.label.name == key) {
                     JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
+                        removeAssignees(client, issueNumber);
                         core.debug(`assignee name: ${element}`);
                         addAssignees(client, issueNumber, element);
                     });
@@ -93,7 +94,7 @@ function addAssignees(client, issueNumber, assignees) {
         });
     });
 }
-function removeAssignees(client, issueNumber, assignees) {
+function removeAssignees(client, issueNumber) {
     return __awaiter(this, void 0, void 0, function* () {
         yield client.issues.removeAssignees({
             owner: github.context.repo.owner,
