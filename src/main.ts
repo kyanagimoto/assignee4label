@@ -19,9 +19,9 @@ async function run() {
     const configurationContent: JSON = JSON.parse(JSON.stringify(yaml.load(fs.readFileSync(configPath, 'utf8'), {json: true})));
 
     core.debug("remove assignees.")
-    const assigneesArray: Array<JSON> = JSON.parse(JSON.stringify(github.context.payload.assignees));
-    core.debug(`assignees: ${assigneesArray}`)
-    assigneesArray.forEach(element => {
+    const issue: JSON = JSON.parse(JSON.stringify(github.context.payload.issue));
+    core.debug(`issue: ${issue}`)
+    issue['assignees'].forEach(element => {
       const loginName = JSON.parse(JSON.stringify(element))['login']
       core.debug(`loginname: ${loginName}`)
       removeAssignees(client, issueNumber, loginName);
