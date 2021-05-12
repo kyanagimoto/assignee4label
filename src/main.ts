@@ -19,7 +19,8 @@ async function run() {
     const configurationContent: JSON = JSON.parse(JSON.stringify(yaml.load(fs.readFileSync(configPath, 'utf8'), {json: true})));
 
     core.debug("remove assignees.")
-    removeAssignees(client, issueNumber);
+    const response = removeAssignees(client, issueNumber);
+    core.debug(`removeAssignees response: ${response}`);
 
     Object.keys(configurationContent).forEach(function(key) {
       if (github.context.payload.label.name == key) {
