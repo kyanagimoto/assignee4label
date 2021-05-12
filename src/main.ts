@@ -23,6 +23,7 @@ async function run() {
     Object.keys(configurationContent).forEach(function(key) {
       if (github.context.payload.label.name == key) {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
+          core.debug("remove assignees.")
           removeAssignees(client, issueNumber);
           core.debug(`assignee name: ${element}`)
           addAssignees(client, issueNumber, element);
