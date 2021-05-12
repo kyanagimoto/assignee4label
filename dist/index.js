@@ -62,9 +62,9 @@ function run() {
             const configurationContent = JSON.parse(JSON.stringify(yaml.load(fs.readFileSync(configPath, 'utf8'), { json: true })));
             core.debug("remove assignees.");
             const assigneesArray = JSON.parse(JSON.stringify(github.context.payload.assignees));
-            assigneesArray.forEach(element => {
-                core.debug(`original assignee name: ${element['login']}`);
-                removeAssignees(client, issueNumber, element['login']);
+            JSON.parse(JSON.stringify(assigneesArray)).forEach(element => {
+                core.debug(`original assignee name: ${JSON.stringify(element['login'])}`);
+                removeAssignees(client, issueNumber, JSON.parse(JSON.stringify(element['login'])));
             });
             Object.keys(configurationContent).forEach(function (key) {
                 if (github.context.payload.label.name == key) {
