@@ -20,9 +20,11 @@ async function run() {
 
     core.debug("remove assignees.")
     const assigneesArray: Array<JSON> = JSON.parse(JSON.stringify(github.context.payload.assignees));
-    JSON.parse(JSON.stringify(assigneesArray)).forEach(element => {
-      core.debug(`original assignee name: ${JSON.stringify(element['login'])}`)
-      removeAssignees(client, issueNumber, JSON.parse(JSON.stringify(element['login'])));
+    core.debug(`assignees: ${assigneesArray}`)
+    assigneesArray.forEach(element => {
+      const loginName = JSON.parse(JSON.stringify(element))['login']
+      core.debug(`loginname: ${loginName}`)
+      removeAssignees(client, issueNumber, loginName);
     });
 
     Object.keys(configurationContent).forEach(function(key) {
