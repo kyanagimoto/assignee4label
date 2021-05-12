@@ -53,7 +53,6 @@ function run() {
             core.debug(`${github.context}`);
             const token = core.getInput("github-token", { required: true });
             const configPath = core.getInput("configuration-path", { required: true });
-            const syncLabels = !!core.getInput("sync-labels", { required: false });
             const issueNumber = getIssueNumber();
             if (!issueNumber) {
                 console.log("Could not get issue number from context, exiting.");
@@ -61,11 +60,11 @@ function run() {
             }
             const client = new github.GitHub(token);
             const configurationContent = JSON.parse(JSON.stringify(yaml.load(fs.readFileSync(configPath, 'utf8'), { json: true })));
+            core.debug("remove assignees.");
+            removeAssignees(client, issueNumber);
             Object.keys(configurationContent).forEach(function (key) {
                 if (github.context.payload.label.name == key) {
                     JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
-                        core.debug("remove assignees.");
-                        removeAssignees(client, issueNumber);
                         core.debug(`assignee name: ${element}`);
                         addAssignees(client, issueNumber, element);
                     });

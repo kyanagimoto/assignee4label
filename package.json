@@ -1,6 +1,6 @@
 {
   "name": "assignee4label",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Set assignee when labeled.",
   "main": "lib/main.js",
   "scripts": {
