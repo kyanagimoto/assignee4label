@@ -61,8 +61,11 @@ function run() {
             const client = new github.GitHub(token);
             const configurationContent = JSON.parse(JSON.stringify(yaml.load(fs.readFileSync(configPath, 'utf8'), { json: true })));
             core.debug("remove assignees.");
-            const response = removeAssignees(client, issueNumber);
-            core.debug(`removeAssignees response: ${response}`);
+            const assigneesArray = JSON.parse(JSON.stringify(github.context.payload.assignees));
+            assigneesArray.forEach(element => {
+                core.debug(`original assignee name: ${element['login']}`);
+                removeAssignees(client, issueNumber, element['login']);
+            });
             Object.keys(configurationContent).forEach(function (key) {
                 if (github.context.payload.label.name == key) {
                     JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
@@ -95,12 +98,13 @@ function addAssignees(client, issueNumber, assignees) {
         });
     });
 }
-function removeAssignees(client, issueNumber) {
+function removeAssignees(client, issueNumber, assignees) {
     return __awaiter(this, void 0, void 0, function* () {
         yield client.issues.removeAssignees({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
-            issue_number: issueNumber
+            issue_number: issueNumber,
+            assignees: assignees
         });
     });
 }
