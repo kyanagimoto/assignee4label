@@ -1,0 +1,15 @@
+name: manage assignee for label
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  change-assignees:
+    name: change-assignees
+    runs-on: ubuntu
+    steps:
+      - name: Set assignee for label
+        uses: kyanagimoto/assignee4label@issue-author-option
+        with:
+          github-token: ${{ secrets.TOKEN }}
+          configuration-path: '.github/assignee4label.yml'
