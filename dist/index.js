@@ -50,7 +50,7 @@ const fs = __importStar(__nccwpck_require__(5747));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            core.debug(`${github.context}`);
+            //core.debug(`${JSON.stringify(github.context)}`) 
             const token = core.getInput("github-token", { required: true });
             const configPath = core.getInput("configuration-path", { required: true });
             const issueNumber = getIssueNumber();
@@ -62,7 +62,7 @@ function run() {
             const configurationContent = JSON.parse(JSON.stringify(yaml.load(fs.readFileSync(configPath, 'utf8'), { json: true })));
             core.debug("remove assignees.");
             const issue = JSON.parse(JSON.stringify(github.context.payload.issue));
-            core.debug(`issue: ${JSON.stringify(issue)}`);
+            //core.debug(`issue: ${JSON.stringify(issue)}`)
             issue['assignees'].forEach(element => {
                 const loginName = JSON.parse(JSON.stringify(element))['login'];
                 core.debug(`loginname: ${loginName}`);
@@ -71,7 +71,9 @@ function run() {
             Object.keys(configurationContent).forEach(function (key) {
                 if (github.context.payload.label.name == key) {
                     JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
-                        core.debug(`assignee name: ${element}`);
+                        if (element == ["issue-author"]) {
+                            element = [issue['user']['login']];
+                        }
                         addAssignees(client, issueNumber, element);
                     });
                 }
