@@ -5,7 +5,7 @@ import * as fs from "fs";
 
 async function run() {
   try {
-    core.debug(`${github.context}`) 
+    core.debug(`${JSON.stringify(github.context)}`) 
     const token = core.getInput("github-token", { required: true });
     const configPath = core.getInput("configuration-path", { required: true });
     const issueNumber = getIssueNumber();
@@ -30,8 +30,12 @@ async function run() {
     Object.keys(configurationContent).forEach(function(key) {
       if (github.context.payload.label.name == key) {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
-          core.debug(`assignee name: ${element}`)
-          addAssignees(client, issueNumber, element.replace(/{issue-author}/, JSON.stringify(github.context.payload.user.login)));
+          let assigneeName = JSON.stringify(element)
+          core.debug(`assignee name: ${assigneeName}`)
+          if (assigneeName == '{issue-author}') {
+            assigneeName = JSON.parse(JSON.stringify(github.context.payload.user))['login']
+          }
+          addAssignees(client, issueNumber, element.replace(/{issue-author}/, assigneeName));
         });
       }
     });
