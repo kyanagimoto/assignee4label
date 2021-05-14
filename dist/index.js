@@ -71,14 +71,12 @@ function run() {
             Object.keys(configurationContent).forEach(function (key) {
                 if (github.context.payload.label.name == key) {
                     JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
-                        let assigneeName = JSON.stringify(element);
-                        core.debug(`assignee name: ${assigneeName}`);
-                        if (assigneeName == "issue-author") {
-                            assigneeName = JSON.parse(JSON.stringify(github.context.payload.user))['login'];
-                            core.debug(`loginName: ${assigneeName}`);
+                        core.debug(`assignee name: ${JSON.stringify(element)}`);
+                        if (element[0] == "issue-author") {
+                            element.splice(0, 1, JSON.parse(JSON.stringify(github.context.payload.user))['login']);
                         }
-                        core.debug(`assignee name: ${assigneeName}`);
-                        addAssignees(client, issueNumber, ['${assigneeName}']);
+                        core.debug(`assignee name: ${JSON.stringify(element)}`);
+                        addAssignees(client, issueNumber, element);
                     });
                 }
             });
