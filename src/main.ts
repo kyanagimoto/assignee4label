@@ -32,9 +32,10 @@ async function run() {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
           let assigneeName = JSON.stringify(element)
           core.debug(`assignee name: ${assigneeName}`)
-          if (assigneeName == '{issue-author}') {
+          if (assigneeName == 'issue-author') {
             assigneeName = JSON.parse(JSON.stringify(github.context.payload.user))['login']
           }
+          core.debug(`assignee name: ${assigneeName}`)
           addAssignees(client, issueNumber, ['${assigneeName}']);
         });
       }
