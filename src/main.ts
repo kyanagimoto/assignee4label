@@ -31,8 +31,7 @@ async function run() {
       if (github.context.payload.label.name == key) {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
           core.debug(`assignee name: ${element}`)
-          element = element.string.replace(/{issue-author}/, github.context.payload.user.login);
-          addAssignees(client, issueNumber, element);
+          addAssignees(client, issueNumber, element.replace(/{issue-author}/, github.context.payload.user.login));
         });
       }
     });
