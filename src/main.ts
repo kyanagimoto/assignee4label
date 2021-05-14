@@ -35,7 +35,7 @@ async function run() {
           if (assigneeName == '{issue-author}') {
             assigneeName = JSON.parse(JSON.stringify(github.context.payload.user))['login']
           }
-          addAssignees(client, issueNumber, element.replace(/{issue-author}/, assigneeName));
+          addAssignees(client, issueNumber, ['${assigneeName}']);
         });
       }
     });
