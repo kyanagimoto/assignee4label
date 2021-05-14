@@ -72,7 +72,8 @@ function run() {
                 if (github.context.payload.label.name == key) {
                     JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
                         core.debug(`assignee name: ${JSON.stringify(element)}`);
-                        if (element[0] == "issue-author") {
+                        if (element == ["issue-author"]) {
+                            core.debug('element');
                             element.splice(0, 1, JSON.parse(JSON.stringify(github.context.payload.user))['login']);
                         }
                         core.debug(`assignee name: ${JSON.stringify(element)}`);
