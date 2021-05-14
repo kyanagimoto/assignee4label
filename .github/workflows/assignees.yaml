@@ -6,8 +6,9 @@ on:
 jobs:
   change-assignees:
     name: change-assignees
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Set assignee for label
         uses: kyanagimoto/assignee4label@issue-author-option
         with:
