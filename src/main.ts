@@ -5,7 +5,7 @@ import * as fs from "fs";
 
 async function run() {
   try {
-    core.debug(`${JSON.stringify(github.context)}`) 
+    //core.debug(`${JSON.stringify(github.context)}`) 
     const token = core.getInput("github-token", { required: true });
     const configPath = core.getInput("configuration-path", { required: true });
     const issueNumber = getIssueNumber();
@@ -20,7 +20,7 @@ async function run() {
 
     core.debug("remove assignees.")
     const issue: JSON = JSON.parse(JSON.stringify(github.context.payload.issue));
-    core.debug(`issue: ${JSON.stringify(issue)}`)
+    //core.debug(`issue: ${JSON.stringify(issue)}`)
     issue['assignees'].forEach(element => {
       const loginName = JSON.parse(JSON.stringify(element))['login']
       core.debug(`loginname: ${loginName}`)
@@ -30,12 +30,9 @@ async function run() {
     Object.keys(configurationContent).forEach(function(key) {
       if (github.context.payload.label.name == key) {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
-          core.debug(`assignee name: ${JSON.stringify(element)}`)
           if (element == ["issue-author"]) {
-            core.debug('element')
             element = [issue['user']['login']]
           }
-          core.debug(`assignee name: ${JSON.stringify(element)}`)
           addAssignees(client, issueNumber, element);
         });
       }
