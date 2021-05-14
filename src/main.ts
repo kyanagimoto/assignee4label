@@ -29,8 +29,9 @@ async function run() {
 
     Object.keys(configurationContent).forEach(function(key) {
       if (github.context.payload.label.name == key) {
-        JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
+        JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
           core.debug(`assignee name: ${element}`)
+          element = element.string.replace(/{issue-author}/, github.context.payload.user.login);
           addAssignees(client, issueNumber, element);
         });
       }
