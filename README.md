@@ -15,6 +15,10 @@ label2:
 - user-name
 - user-name-3
 ```
+> If you want to assign issue author, add
+```
+- issue-author
+```
 
 ### Create Workflow
 
