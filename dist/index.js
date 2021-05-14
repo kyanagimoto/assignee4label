@@ -74,8 +74,7 @@ function run() {
                         core.debug(`assignee name: ${JSON.stringify(element)}`);
                         if (element == ["issue-author"]) {
                             core.debug('element');
-                            const user = JSON.parse(JSON.stringify(github.context.payload.user));
-                            element.splice(0, 1, user['login']);
+                            element.splice(0, 1, issue['user']['login']);
                         }
                         core.debug(`assignee name: ${JSON.stringify(element)}`);
                         addAssignees(client, issueNumber, element);
