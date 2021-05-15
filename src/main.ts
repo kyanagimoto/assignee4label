@@ -2,6 +2,7 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 import * as yaml from "js-yaml";
 import * as fs from "fs";
+import * as readline from "readline";
 
 async function run() {
   try {
@@ -23,7 +24,7 @@ async function run() {
     //core.debug(`issue: ${JSON.stringify(issue)}`)
     issue['assignees'].forEach(element => {
       const loginName = JSON.parse(JSON.stringify(element))['login']
-      core.debug(`loginname: ${loginName}`)
+      //core.debug(`loginname: ${loginName}`)
       removeAssignees(client, issueNumber, loginName);
     });
 
@@ -32,6 +33,17 @@ async function run() {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
           if (element == ["issue-author"]) {
             element = [issue['user']['login']]
+          } else if (element == ["codeowner"]) {
+            const rs = fs.createReadStream("./.github/CODEOWNER");
+            const rl = readline.createInterface({
+              input: rs
+            });
+            rl.on('line', (lineString) => {
+              if (lineString.match(/^\* *@.*/)) {
+                element = lineString.slice(2).replace(/@/g, "").split(" ")
+              }
+            })
+
           }
           addAssignees(client, issueNumber, element);
         });
