@@ -86,7 +86,7 @@ function run() {
                                     const owners = lineString.slice(2).replace(/@/g, "").split(" ");
                                     core.debug(`owners: ${owners}`);
                                     core.debug(`element: ${element}`);
-                                    element = owners;
+                                    element = [owners];
                                     core.debug(`element: ${element}`);
                                 }
                             });
