@@ -82,6 +82,7 @@ function run() {
                             });
                             rl.on('line', (lineString) => {
                                 if (lineString.match(/^\* *@.*/)) {
+                                    core.debug(`lineString: ${lineString}`);
                                     element = lineString.slice(2).replace(/@/g, "").split(" ");
                                 }
                             });
