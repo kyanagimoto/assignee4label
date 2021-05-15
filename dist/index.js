@@ -47,7 +47,6 @@ const core = __importStar(__nccwpck_require__(6024));
 const github = __importStar(__nccwpck_require__(5016));
 const yaml = __importStar(__nccwpck_require__(3607));
 const fs = __importStar(__nccwpck_require__(5747));
-const readline = __importStar(__nccwpck_require__(1058));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -74,22 +73,6 @@ function run() {
                     JSON.parse(JSON.stringify(configurationContent[key])).forEach(element => {
                         if (element == ["issue-author"]) {
                             element = [issue['user']['login']];
-                        }
-                        else if (element == ["codeowner"]) {
-                            const rs = fs.createReadStream("./.github/CODEOWNERS");
-                            const rl = readline.createInterface({
-                                input: rs
-                            });
-                            rl.on('line', (lineString) => {
-                                if (lineString.match(/^\* *@.*/)) {
-                                    core.debug(`lineString: ${lineString}`);
-                                    const owners = lineString.slice(2).replace(/@/g, "").split(" ");
-                                    core.debug(`owners: ${owners}`);
-                                    core.debug(`element: ${element}`);
-                                    element = [owners];
-                                    core.debug(`element: ${element}`);
-                                }
-                            });
                         }
                         addAssignees(client, issueNumber, element);
                     });
@@ -29680,14 +29663,6 @@ module.exports = require("os");;
 
 "use strict";
 module.exports = require("path");;
-
-/***/ }),
-
-/***/ 1058:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("readline");;
 
 /***/ }),
 

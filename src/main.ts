@@ -2,7 +2,6 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 import * as yaml from "js-yaml";
 import * as fs from "fs";
-import * as readline from "readline";
 
 async function run() {
   try {
@@ -33,22 +32,6 @@ async function run() {
         JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
           if (element == ["issue-author"]) {
             element = [issue['user']['login']]
-          } else if (element == ["codeowner"]) {
-            const rs = fs.createReadStream("./.github/CODEOWNERS");
-            const rl = readline.createInterface({
-              input: rs
-            });
-            rl.on('line', (lineString) => {
-              if (lineString.match(/^\* *@.*/)) {
-                core.debug(`lineString: ${lineString}`)
-                const owners: string[] = lineString.slice(2).replace(/@/g, "").split(" ")
-                core.debug(`owners: ${owners}`)
-                core.debug(`element: ${element}`)
-                element = [owners]
-                core.debug(`element: ${element}`)
-              }
-            })
-
           }
           addAssignees(client, issueNumber, element);
         });
