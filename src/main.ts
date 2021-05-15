@@ -34,7 +34,7 @@ async function run() {
           if (element == ["issue-author"]) {
             element = [issue['user']['login']]
           } else if (element == ["codeowner"]) {
-            const rs = fs.createReadStream("./.github/CODEOWNER");
+            const rs = fs.createReadStream("./.github/CODEOWNERS");
             const rl = readline.createInterface({
               input: rs
             });
