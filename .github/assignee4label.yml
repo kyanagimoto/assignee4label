@@ -1,2 +1,5 @@
 enhancement:
 - issue-author
+
+bug:
+- codeowner
