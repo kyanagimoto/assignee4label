@@ -32,8 +32,8 @@ jobs:
   set-assignees:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/assignee4label@main
+    - uses: kyanagimoto/assignee4label@main
       with:
-        github-token: %{{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         configuration-path: '.github/assignee4label.yml'
 ```
