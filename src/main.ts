@@ -21,22 +21,22 @@ async function run() {
     core.debug("remove assignees.")
     const issue: JSON = JSON.parse(JSON.stringify(github.context.payload.issue));
     //core.debug(`issue: ${JSON.stringify(issue)}`)
-    issue['assignees'].forEach(element => {
+    for (const element of issue['assignees']) {
       const loginName = JSON.parse(JSON.stringify(element))['login']
       //core.debug(`loginname: ${loginName}`)
       removeAssignees(client, issueNumber, loginName);
-    });
+    };
 
-    Object.keys(configurationContent).forEach(function(key) {
+    for (const key of Object.keys(configurationContent)){
       if (github.context.payload.label.name == key) {
-        JSON.parse(JSON.stringify(configurationContent[key])).forEach(element=> {
+        for (const element of JSON.parse(JSON.stringify(configurationContent[key]))) {
           if (element == ["issue-author"]) {
             element = [issue['user']['login']]
           }
           addAssignees(client, issueNumber, element);
-        });
+        };
       }
-    });
+    };
   } catch (error) {
     core.error(error);
     core.setFailed(error.message);
